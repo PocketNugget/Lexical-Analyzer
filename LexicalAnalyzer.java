@@ -6,13 +6,12 @@ public class LexicalAnalyzer {
     private static final Map<String, String> TOKENS = new HashMap<>();
 
     static {
-        TOKENS.put("NUMBER", "\\d+");
-        TOKENS.put("PLUS", "\\+");
-        TOKENS.put("MINUS", "-");
-        TOKENS.put("MULTIPLY", "\\*");
-        TOKENS.put("DIVIDE", "/");
-        TOKENS.put("LPAREN", "\\(");
-        TOKENS.put("RPAREN", "\\)");
+        TOKENS.put("ELSE", "e*l*s*e");
+        TOKENS.put("ENUM", "e*n*u*m");
+        TOKENS.put("WHILE", "w*h*i*l*e");
+
+
+
     }
 
     public static List<Token> tokenize(String code) {
@@ -22,7 +21,7 @@ public class LexicalAnalyzer {
             for (Map.Entry<String, String> entry : TOKENS.entrySet()) {
                 Pattern pattern = Pattern.compile(entry.getValue());
                 Matcher matcher = pattern.matcher(code);
-                if (matcher.find()) {
+                if (matcher.find() && matcher.start() == 0) {
                     String tokenValue = matcher.group(0);
                     tokens.add(new Token(entry.getKey(), tokenValue));
                     code = code.substring(tokenValue.length());
@@ -37,16 +36,62 @@ public class LexicalAnalyzer {
         return tokens;
     }
 
-    // Complete the DFA logic here
+    // Lógica del DFA para "else" y "enum"
     public static void simulateDFA(List<Token> tokens) {
-        // Incomplete: Add DFA simulation logic
+        // Definir estados PARA KEYWORDS
+        final int START = 0;
+        final int ELSE = 1;
+        final int ENUM = 2;
+        final int WHILE = 3;
+        final int ERROR = -1;
+
+        int currentState = START;
+
+        for (Token token : tokens) {
+            switch (currentState) {
+                case START:
+                    if (token.getType().equals("ELSE")) {
+                        currentState = ELSE;
+                    } else if (token.getType().equals("ENUM")) {
+                        currentState = ENUM;
+                    } else if (token.getType().equals("WHILE")) {
+                        currentState = WHILE;
+                    } else {
+                        currentState = ERROR;
+                    }
+                    break;
+                case ELSE:
+                    // Estado aceptado para la palabra clave else
+                    System.out.println("Keyword: ELSE.");
+                    return;
+                case ENUM:
+                    // Estado aceptado para la palabra clave enum
+                    System.out.println("Keyword: ENUM.");
+                    return;
+                case WHILE:
+                    // Estado aceptado para la palabra clave enum
+                    System.out.println("Keyword: WHILE.");
+                    return;
+                case ERROR:
+                    System.out.println("DFA rejected the token sequence.");
+                    return;
+            }
+        }
+
+        if (currentState == ELSE || currentState == ENUM|| currentState == WHILE) {
+            System.out.println("Keyword.");
+            System.out.println(currentState);
+        } else {
+            System.out.println("DFA rejected the input.");
+        }
     }
 
     public static void main(String[] args) {
-        String code = "3 + 5 * (10 - 4)";
+        String code = "while";
         List<Token> tokens = tokenize(code);
         System.out.println(tokens);
         simulateDFA(tokens);
+
     }
 }
 
@@ -57,6 +102,10 @@ class Token {
     public Token(String type, String value) {
         this.type = type;
         this.value = value;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
