@@ -24,7 +24,8 @@ public class LexicalAnalyzer {
         TOKENS.put("IDENTIFIER", "[a-zA-Z][a-zA-Z0-9]*");
 
         // Numbers
-        TOKENS.put("NUMBER", "\\d+(\\.\\d+)?");
+        TOKENS.put("FLOAT", "\\d+\\.\\d+");  // Números de punto flotante
+        TOKENS.put("INTEGER", "\\d+");        // Números enteros
 
         // Operators
         TOKENS.put("LEQ", "<=");
