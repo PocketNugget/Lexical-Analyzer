@@ -1,3 +1,5 @@
+import java.nio.file.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.*;
 
@@ -17,6 +19,7 @@ public class LexicalAnalyzer {
         TOKENS.put("THIS", "t*h*i*s");
         TOKENS.put("FOR", "f*o*r");
         TOKENS.put("FALSE", "f*a*l*s*e");
+
         // Identifiers
         TOKENS.put("IDENTIFIER", "[a-zA-Z][a-zA-Z0-9]*");
 
@@ -68,70 +71,38 @@ public class LexicalAnalyzer {
         return tokens;
     }
 
-    // Improved DFA logic using switch-case grouped by categories
-    public static void simulateDFA(List<Token> tokens) {
+    // Function to print tokens in a table format
+    public static void printTable(List<Token> tokens) {
+        System.out.println("+-----------------+----------------+");
+        System.out.println("| Token Type      | Token Value    |");
+        System.out.println("+-----------------+----------------+");
+
         for (Token token : tokens) {
-            switch (token.getType()) {
-                // Case for Keywords
-                case "ELSE":
-                case "ENUM":
-                case "WHILE":
-                    System.out.println("Keyword: " + token.getType());
-                    break;
-
-                // Case for Identifiers
-                case "IDENTIFIER":
-                    System.out.println("Identifier: " + token.getValue());
-                    break;
-
-                // Case for Numbers
-                case "NUMBER":
-                    if (token.getValue().contains(".")) {
-                        System.out.println("Number (float): " + token.getValue());
-                    } else {
-                        System.out.println("Number (int): " + token.getValue());
-                    }
-                    break;
-
-                // Case for Operators
-                case "PLUS":
-                case "MINUS":
-                case "MULTIPLY":
-                case "DIVIDE":
-                case "ASSIGN":
-                case "EQ":
-                case "NEQ":
-                case "LT":
-                case "GT":
-                case "LEQ":
-                case "GEQ":
-                    System.out.println("Operator: " + token.getValue());
-                    break;
-
-                // Case for Delimiters
-                case "LPAREN":
-                case "RPAREN":
-                case "LBRACE":
-                case "RBRACE":
-                case "SEMICOLON":
-                    System.out.println("Delimiter: " + token.getValue());
-                    break;
-
-                // Case for unknown inputs
-                default:
-                    System.out.println("DFA rejected the input.");
-                    break;
-            }
+            System.out.printf("| %-15s | %-14s |\n", token.getType(), token.getValue());
         }
 
-        System.out.println("DFA finished processing without error.");
+        System.out.println("+-----------------+----------------+");
     }
 
     public static void main(String[] args) {
-        String code = "in9t x = 5 + y;";
-        List<Token> tokens = tokenize(code);
-        System.out.println(tokens);
-        simulateDFA(tokens);
+        if (args.length != 1) {
+            System.out.println("Usage: java LexicalAnalyzer <file_path>");
+            return;
+        }
+
+        String filePath = args[0];
+        try {
+            // Read the contents of the file
+            String code = new String(Files.readAllBytes(Paths.get(filePath)));
+
+            // Tokenize the content of the file
+            List<Token> tokens = tokenize(code);
+
+            // Print tokens in a table format
+            printTable(tokens);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
     }
 }
 
