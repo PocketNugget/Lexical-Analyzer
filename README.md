@@ -60,7 +60,7 @@ java LexicalAnalyzer <file_path>
 Replace `<file_path>` with the path to the source code file you want to analyze. For example:
 
 ```bash
-java LexicalAnalyzer example.java
+java LexicalAnalyzer example.txt
 ```
 
 ## Code Structure
