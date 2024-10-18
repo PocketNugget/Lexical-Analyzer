@@ -1,6 +1,4 @@
-Here’s the `README.md` content formatted for you to directly place in your `README.md` file:
 
-```markdown
 # Lexical Analyzer
 
 A simple lexical analyzer implemented in Java that converts source code into tokens. This project demonstrates the use of regular expressions for tokenization and provides a clear structure for understanding the components of a lexical analyzer.
