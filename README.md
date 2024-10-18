@@ -95,8 +95,3 @@ The analyzer will produce tokens such as:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 
-### Instructions
-1. Create a file named `README.md` in the root of your project repository.
-2. Copy and paste the content above into the `README.md` file.
-3. Replace `yourusername` with your actual GitHub username in the clone command. 
-4. Adjust any sections as needed to better reflect your project specifics.
