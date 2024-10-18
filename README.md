@@ -93,7 +93,7 @@ The analyzer will produce tokens such as:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
+
 
 ### Instructions
 1. Create a file named `README.md` in the root of your project repository.
